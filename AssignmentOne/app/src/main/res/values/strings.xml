@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AssignmentOne</string>
+    <string name="main_heading">Quiz Box</string>
+    <string name="start_btn">Start App</string>
+    <string name="category_selection_heading">Select Quiz Category </string>
+    <string name="category_islamic">Islamic</string>
+    <string name="category_gk">General Knowledge</string>
+    <string name="category_science">Science</string>
+    <string name="txt_questNum"></string>
+    <string name="txtQuizCategory"></string>
+
+</resources>
