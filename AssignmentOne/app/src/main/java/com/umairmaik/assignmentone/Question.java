@@ -9,6 +9,16 @@ public class Question {
 	private String option3;
 	private String option4;
 	private String answer;
+	private String img_path;
+
+	public String getImg_path() {
+		return img_path;
+	}
+
+	public void setImg_path(String img_path) {
+		this.img_path = img_path;
+	}
+
 
 	public String getQuestionDescription() {
 		return QuestionDescription;
@@ -66,7 +76,7 @@ public class Question {
 		this.answer = answer;
 	}
 
-	public Question(String questionDescription, String category, String option1, String option2, String option3, String option4, String answer) {
+	public Question(String questionDescription, String category, String option1, String option2, String option3, String option4, String answer,String imagePath) {
 		QuestionDescription = questionDescription;
 		this.category = category;
 		this.option1 = option1;
@@ -74,5 +84,6 @@ public class Question {
 		this.option3 = option3;
 		this.option4 = option4;
 		this.answer = answer;
+		this.img_path=imagePath;
 	}
 }
