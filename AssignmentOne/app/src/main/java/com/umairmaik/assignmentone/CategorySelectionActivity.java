@@ -15,13 +15,6 @@ public class CategorySelectionActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_category_selection);
-		btnClickMediaPlayer=MediaPlayer.create(CategorySelectionActivity.this,R.raw.click);
-		btnClickMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				btnClickMediaPlayer.release();
-			}
-		});
 	}
 
 	public void MoveToQuizActivity(View view){
@@ -33,6 +26,14 @@ public class CategorySelectionActivity extends AppCompatActivity {
 	}
 
 	public void onClickSound(){
+		btnClickMediaPlayer=MediaPlayer.create(CategorySelectionActivity.this,R.raw.click);
+		btnClickMediaPlayer.setLooping(false);
 		btnClickMediaPlayer.start();
+		btnClickMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				btnClickMediaPlayer.release();
+			}
+		});
 	}
 }

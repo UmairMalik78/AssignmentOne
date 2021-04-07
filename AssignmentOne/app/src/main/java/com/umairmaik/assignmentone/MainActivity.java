@@ -14,16 +14,18 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+	}
+	public void onClickSound()
+	{
 		mediaPlayer=MediaPlayer.create(this,R.raw.click);
+		mediaPlayer.setLooping(false);
+		mediaPlayer.start();
 		mediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
 				mediaPlayer.release();
 			}
 		});
-	}
-	public void onClickSound(){
-		mediaPlayer.start();
 	}
 	public void MoveToCategorySelectionActivity(View view){
 		onClickSound();

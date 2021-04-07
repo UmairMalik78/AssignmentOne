@@ -3,10 +3,13 @@ package com.umairmaik.assignmentone;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +22,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
+	private static final long COUNTDOWN_IN_MILLIS=20000;
+	private ColorStateList textColorDefaultRb;
+	private ColorStateList textColorDefaultCd;
+	private CountDownTimer countDownTimer;
+	private  long timeLeftInMillis;
+
 	MediaPlayer radioBtnMediaPlayer,nextBtnMediaPlayer;
-	TextView questionDescription,txtQuestionNumber,quizCategory;
+	TextView questionDescription,txtQuestionNumber,quizCategory,questionTimer;
 	ArrayList<Question> questionsList;
 	RadioGroup radioGroup;
 	RadioButton option1,option2,option3,option4;
@@ -33,11 +43,14 @@ public class QuizActivity extends AppCompatActivity {
 	int countOfCorrectAnswers=0,MAX_QUESTIONS=10;
 	Boolean[] answersStatusList=new Boolean[10];
 	int currentQuestionNumber=0;//will be use as index variable
+	boolean isTimeOut=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quiz);
+		//Loading data
+		dbHelper.addQuestion(Question.GetAllQuestions());
 		//Used to get full screen view
 		this.getWindow().getDecorView().setSystemUiVisibility(
 				View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -61,6 +74,7 @@ public class QuizActivity extends AppCompatActivity {
 		nextQuestionButton=findViewById(R.id.nextQuestionButton);
 		img=findViewById(R.id.imageView);
 		radioGroup=findViewById(R.id.radioGroup);
+		questionTimer=findViewById(R.id.questionTimer);
 
 		//Creating DBHelper class object which we'll use for the whole sessions.
 
@@ -74,22 +88,39 @@ public class QuizActivity extends AppCompatActivity {
 		setImg();
 		setQuestionDescription();//Sets first question
 		setOptions();//set 4 possible options
-		//To stop the mediaPLayer sound
-		radioBtnMediaPlayer=MediaPlayer.create(this,R.raw.radio_btn);
-		nextBtnMediaPlayer=MediaPlayer.create(this,R.raw.next_btn);
-		radioBtnMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
+		//After everthing is set=up we need to start the timer.
+		textColorDefaultCd=questionTimer.getTextColors();
+		timeLeftInMillis=COUNTDOWN_IN_MILLIS;
+		startCountDown();
+	}
+	public void startCountDown(){
+		isTimeOut=false;
+		countDownTimer=new CountDownTimer(COUNTDOWN_IN_MILLIS,1000) {
 			@Override
-			public void onCompletion(MediaPlayer mp) {
-				Log.d("Radio","Realeasing");
-				radioBtnMediaPlayer.release();
+			public void onTick(long millisUntilFinished) {
+				timeLeftInMillis=millisUntilFinished;
+				updateTimerTextView();
 			}
-		});
-		nextBtnMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
+
 			@Override
-			public void onCompletion(MediaPlayer mp) {
-				nextBtnMediaPlayer.release();
+			public void onFinish() {
+				timeLeftInMillis=0;
+				updateTimerTextView();
+				isTimeOut=true;
+				SetNextQuestionOnScreen(nextQuestionButton);
 			}
-		});
+		}.start();
+	}
+	public void updateTimerTextView(){
+		int minutes=(int)(timeLeftInMillis/1000)/60;
+		int seconds=(int)(timeLeftInMillis/1000)%60;
+		String timeFormat=String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
+		questionTimer.setText(timeFormat);
+		if(timeLeftInMillis <10000){
+			questionTimer.setTextColor(Color.RED);
+		}else{
+			questionTimer.setTextColor(Color.GREEN);
+		}
 	}
 
 	public void setCurrentQuestion(Question question){
@@ -131,6 +162,10 @@ public class QuizActivity extends AppCompatActivity {
 	public void updateAnswersStatusList(){
 		int selectedOptionID=radioGroup.getCheckedRadioButtonId();
 		RadioButton selectedRadioBtn=(RadioButton)findViewById(selectedOptionID);
+		if(selectedOptionID==-1){
+			answersStatusList[currentQuestionNumber]=false;
+			return;
+		}
 		if(selectedRadioBtn.getText().toString().equals(currentQuestion.getAnswer())){
 			countOfCorrectAnswers++;
 			answersStatusList[currentQuestionNumber]=true;
@@ -140,11 +175,12 @@ public class QuizActivity extends AppCompatActivity {
 	}
 
 	public void SetNextQuestionOnScreen(View view){
-		onClickSound();
-		if(radioGroup.getCheckedRadioButtonId()==-1){
+		if(radioGroup.getCheckedRadioButtonId()==-1 && !isTimeOut){
 			Toast.makeText(QuizActivity.this,"Please Select at least one option to proceed",Toast.LENGTH_SHORT).show();
 			return;
 		}
+		countDownTimer.cancel();
+		onClickSound();
 		updateAnswersStatusList();
 		resetAllOptions();//upchecking all options when new question appears;
 		currentQuestionNumber=currentQuestionNumber+1;
@@ -157,6 +193,7 @@ public class QuizActivity extends AppCompatActivity {
 		}
 		setCurrentQuestion(questionsList.get(currentQuestionNumber));
 		updateAllTheElements();
+		startCountDown();
 	}
 	public void updateAllTheElements(){
 		setImg();
@@ -176,14 +213,46 @@ public class QuizActivity extends AppCompatActivity {
 		intent.putExtra("correctAnsCount",countOfCorrectAnswers);
 		startActivity(intent);
 	}
-	//for playig sound each time a radio button is selected / clicked
+	//for playing sound each time a radio button is selected / clicked
 	public void onClickSound(){
+		nextBtnMediaPlayer=new MediaPlayer();
+		nextBtnMediaPlayer=MediaPlayer.create(QuizActivity.this,R.raw.next_btn);
 		nextBtnMediaPlayer.start();
+		nextBtnMediaPlayer.setLooping(false);
+		nextBtnMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				nextBtnMediaPlayer.reset();
+				nextBtnMediaPlayer.release();
+			}
+		});
 	}
 
 
+	//for playing sound each time next button is clicked
 	public void playSoundOnRadioButtonClick(View view) {
-//		radioBtnMediaPlayer.release();
+		radioBtnMediaPlayer=MediaPlayer.create(QuizActivity.this,R.raw.radio_btn);
 		radioBtnMediaPlayer.start();
+		radioBtnMediaPlayer.setLooping(false);
+		radioBtnMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				radioBtnMediaPlayer.reset();
+				radioBtnMediaPlayer.release();
+			}
+		});
 	}
+
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		if(countDownTimer!=null){
+			countDownTimer.cancel();
+		}
+	}
+
+	public void AddQuestionsToDatabase(){
+
+	}
+
 }

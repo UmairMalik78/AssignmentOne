@@ -51,29 +51,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	}
 
-	public boolean addQuestion(Question question) {
+	public void addQuestion(ArrayList<Question> questions) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		//Hash map, as we did in bundles
-		ContentValues cv = new ContentValues();
-		cv.put(OPTION_1, question.getOption1());
-		cv.put(CATEGORY, question.getCategory());
-		cv.put(DESCRIPTION, question.getQuestionDescription());
-		cv.put(ANSWER, question.getAnswer());
-		cv.put(OPTION_3, question.getOption3());
-		cv.put(OPTION_4, question.getOption4());
-		cv.put(OPTION_2, question.getOption2());
-		cv.put(IMAGE_PATH, question.getImg_path());
-		//insert data to table
-		long insert = db.insert(QUEST_TABLE, null, cv);
-		Log.d("DBMS", "Database created");
-
-		if (insert == -1) {
-			Log.d("ALCasas", "Failed");
-			return false;
-		} else {
-			Log.d("ALCasas", "Success");
-			return true;
+		for(int i=0;i<questions.size();i++) {
+			Question question=questions.get(i);
+			//Hash map, as we did in bundles
+			ContentValues cv = new ContentValues();
+			cv.put(OPTION_1, question.getOption1());
+			cv.put(CATEGORY, question.getCategory());
+			cv.put(DESCRIPTION, question.getQuestionDescription());
+			cv.put(ANSWER, question.getAnswer());
+			cv.put(OPTION_3, question.getOption3());
+			cv.put(OPTION_4, question.getOption4());
+			cv.put(OPTION_2, question.getOption2());
+			cv.put(IMAGE_PATH, question.getImg_path());
+			//insert data to table
+			long insert = db.insert(QUEST_TABLE, null, cv);
 		}
+		db.close();
 	}
 
     public ArrayList<Question> GetQuestions(String questionCategory){
@@ -102,30 +97,4 @@ public class DBHelper extends SQLiteOpenHelper {
         return questionList;
     }
 }
-
-/*
-    public ArrayList<CustomerModel> GetAllRecords(){
-        ArrayList<CustomerModel> myList=new ArrayList<>();
-        String query="Select * from " +CUST_TABLE;
-        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
-        if(cursor.moveToFirst()){
-            do{
-                CustomerModel tempCustomerModel=new CustomerModel("",-1,false);
-                int id=cursor.getInt(0);
-                String name=cursor.getString(1);
-                int age=cursor.getInt(2);
-                boolean isActive=cursor.getInt(3)==1?true:false;
-                tempCustomerModel.setId(id);
-                tempCustomerModel.setName(name);
-                tempCustomerModel.setAge(age);
-                tempCustomerModel.setActive(isActive);
-                myList.add(tempCustomerModel);
-            }while(cursor.moveToNext()!=false);
-        }
-        cursor.close();
-        sqLiteDatabase.close();
-        return myList;
-    }
-*/
 
