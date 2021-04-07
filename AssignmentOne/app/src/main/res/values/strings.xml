@@ -8,5 +8,6 @@
     <string name="category_science">Science</string>
     <string name="txt_questNum"></string>
     <string name="txtQuizCategory"></string>
+    <string name="txtSubmitButton">Submit Quiz</string>
 
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,7 @@ public class QuizActivity extends AppCompatActivity {
 	Question currentQuestion;
 	int countOfCorrectAnswers=0;
 	Boolean[] answersStatusList=new Boolean[10];
-
+	int MAX_QUESTIONS=10;
 	int currentQuestionNumber=0;//will be use as index variable
 
 	@Override
@@ -62,6 +63,7 @@ public class QuizActivity extends AppCompatActivity {
 		quizCategory=findViewById(R.id.txtQuizCategory);
 		nextQuestionButton=findViewById(R.id.nextQuestionButton);
 		img=findViewById(R.id.imageView);
+		radioGroup=findViewById(R.id.radioGroup);
 
 		//Creating DBHelper class object which we'll use for the whole sessions.
 
@@ -72,6 +74,7 @@ public class QuizActivity extends AppCompatActivity {
 		setCurrentQuestion(questionsList.get(currentQuestionNumber));//pass first question from list ini as argument.
 		// Now all other functions will use this current object by themselves.
 		// No need to pass information to each method individually
+		setImg();
 		setQuestionDescription();//Sets first question
 		setOptions();//set 4 possible options
 
@@ -84,12 +87,13 @@ public class QuizActivity extends AppCompatActivity {
 		questionsList=dbHelper.GetQuestions(quizCategory.getText().toString());
 	}
 
-	public void setQuizCategory(String categroy){
-		quizCategory.setText(categroy);
+	public void setQuizCategory(String category){
+		quizCategory.setText(category);
 	}
 
 	public void setQuestionNumber(){
-		txtQuestionNumber.setText(String.valueOf(currentQuestionNumber+1));//since starts fro 0, so add 1 to view properly
+		String text="Question Number: "+String.valueOf(currentQuestionNumber + 1);//since currentQuestionNumber is being used as index so its always 1 less than original number
+		txtQuestionNumber.setText(text);//since starts fro 0, so add 1 to view properly
 	}
 
 	public void setQuestionDescription(){
@@ -104,9 +108,12 @@ public class QuizActivity extends AppCompatActivity {
 	}
 
 	public void setImg(){
-		int res = getResources().getIdentifier(currentQuestion.getImg_path(), "drawable", this.getPackageName());
-		img.setImageResource(res);
-	}
+		String uri = "@drawable/"+currentQuestion.getImg_path();  // where myresource (without the extension) is the file
+		int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+		Log.d("Image",String.valueOf(imageResource));
+		Drawable res = getResources().getDrawable(imageResource);
+		Log.d("Image",uri);
+		img.setImageDrawable(res);	}
 
 	public void updateAnswersStatusList(){
 		int selectedOptionID=radioGroup.getCheckedRadioButtonId();
@@ -119,13 +126,22 @@ public class QuizActivity extends AppCompatActivity {
 		}
 	}
 
-	public void SetNextQuestionOnScreen(){
+	public void SetNextQuestionOnScreen(View view){
 		if(radioGroup.getCheckedRadioButtonId()==-1){
 			Toast.makeText(QuizActivity.this,"Please Select at least one option to proceed",Toast.LENGTH_SHORT).show();
 			return;
 		}
 		updateAnswersStatusList();
-		setCurrentQuestion(questionsList.get(++currentQuestionNumber));
+		resetAllOptions();//upchecking all options when new question appears;
+		currentQuestionNumber=currentQuestionNumber+1;
+		if(currentQuestionNumber==MAX_QUESTIONS-1){//checks if last question has come?
+			String text="Finish Quiz";
+			nextQuestionButton.setText(text);
+		}else if(currentQuestionNumber==MAX_QUESTIONS){
+			MoveToResultActivity();
+			return;
+		}
+		setCurrentQuestion(questionsList.get(currentQuestionNumber));
 		updateAllTheElements();
 	}
 	public void updateAllTheElements(){
@@ -134,5 +150,19 @@ public class QuizActivity extends AppCompatActivity {
 		setOptions();
 		setQuestionNumber();
 	}
+
+	public void resetAllOptions(){
+		Log.d("ALC","Radio");
+		radioGroup.clearCheck();
+		Log.d("ALC","Radio");
+	}
+	public void MoveToResultActivity(){
+		Intent intent=new Intent(this,ResultActivity.class);
+		intent.putExtra("answersStatus",answersStatusList);
+		intent.putExtra("correctAnsCount",countOfCorrectAnswers);
+		startActivity(intent);
+	}
+
+
 
 }

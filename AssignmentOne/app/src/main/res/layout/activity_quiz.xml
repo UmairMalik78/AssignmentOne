@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="399dp"
-        android:layout_height="72dp"
+        android:layout_width="386dp"
+        android:layout_height="24dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -18,13 +18,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/txtQuestNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtQuizCategory"
@@ -41,17 +34,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18sp" />
+
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="388dp"
-        android:layout_height="231dp"
+        android:layout_width="374dp"
+        android:layout_height="227dp"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintTop_toBottomOf="@+id/txtQuestNum"
+
+         />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -74,6 +71,7 @@
             android:textSize="24sp" />
 
         <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="308dp"
             android:layout_height="wrap_content">
 
@@ -116,9 +114,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Button"
+        android:text="Next"
+        android:onClick="SetNextQuestionOnScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/txtQuestNum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

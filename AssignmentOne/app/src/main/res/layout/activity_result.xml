@@ -6,4 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ResultActivity">
 
+    <TextView
+        android:id="@+id/txtResultStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:text="Status"
+        android:textColor="#FFF309"
+        android:textSize="45sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtCorrectAnsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="104dp"
+        android:text="count"
+        android:textColor="#77DB11"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtResultStatus"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="@+id/txtResultStatus"
+        app:layout_constraintTop_toBottomOf="@+id/txtResultStatus" />
 </androidx.constraintlayout.widget.ConstraintLayout>
