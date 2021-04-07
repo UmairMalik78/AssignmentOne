@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,22 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
-	TextView questionDescription;
+	MediaPlayer radioBtnMediaPlayer,nextBtnMediaPlayer;
+	TextView questionDescription,txtQuestionNumber,quizCategory;
 	ArrayList<Question> questionsList;
 	RadioGroup radioGroup;
-	RadioButton option1;
-	RadioButton option2;
-	RadioButton option3;
-	RadioButton option4;
-	TextView txtQuestionNumber;
-	TextView quizCategory;
+	RadioButton option1,option2,option3,option4;
 	Button nextQuestionButton;
 	ImageView img;
 	DBHelper dbHelper=new DBHelper(QuizActivity.this);
 	Question currentQuestion;
-	int countOfCorrectAnswers=0;
+	int countOfCorrectAnswers=0,MAX_QUESTIONS=10;
 	Boolean[] answersStatusList=new Boolean[10];
-	int MAX_QUESTIONS=10;
 	int currentQuestionNumber=0;//will be use as index variable
 
 	@Override
@@ -77,8 +74,24 @@ public class QuizActivity extends AppCompatActivity {
 		setImg();
 		setQuestionDescription();//Sets first question
 		setOptions();//set 4 possible options
-
+		//To stop the mediaPLayer sound
+		radioBtnMediaPlayer=MediaPlayer.create(this,R.raw.radio_btn);
+		nextBtnMediaPlayer=MediaPlayer.create(this,R.raw.next_btn);
+		radioBtnMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				Log.d("Radio","Realeasing");
+				radioBtnMediaPlayer.release();
+			}
+		});
+		nextBtnMediaPlayer.setOnCompletionListener(new  MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				nextBtnMediaPlayer.release();
+			}
+		});
 	}
+
 	public void setCurrentQuestion(Question question){
 		currentQuestion=question;
 	}
@@ -109,10 +122,10 @@ public class QuizActivity extends AppCompatActivity {
 
 	public void setImg(){
 		String uri = "@drawable/"+currentQuestion.getImg_path();  // where myresource (without the extension) is the file
+		Log.d("Image",uri);
 		int imageResource = getResources().getIdentifier(uri, null, getPackageName());
 		Log.d("Image",String.valueOf(imageResource));
 		Drawable res = getResources().getDrawable(imageResource);
-		Log.d("Image",uri);
 		img.setImageDrawable(res);	}
 
 	public void updateAnswersStatusList(){
@@ -127,6 +140,7 @@ public class QuizActivity extends AppCompatActivity {
 	}
 
 	public void SetNextQuestionOnScreen(View view){
+		onClickSound();
 		if(radioGroup.getCheckedRadioButtonId()==-1){
 			Toast.makeText(QuizActivity.this,"Please Select at least one option to proceed",Toast.LENGTH_SHORT).show();
 			return;
@@ -162,7 +176,14 @@ public class QuizActivity extends AppCompatActivity {
 		intent.putExtra("correctAnsCount",countOfCorrectAnswers);
 		startActivity(intent);
 	}
+	//for playig sound each time a radio button is selected / clicked
+	public void onClickSound(){
+		nextBtnMediaPlayer.start();
+	}
 
 
-
+	public void playSoundOnRadioButtonClick(View view) {
+//		radioBtnMediaPlayer.release();
+		radioBtnMediaPlayer.start();
+	}
 }

@@ -80,8 +80,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
+                android:onClick="playSoundOnRadioButtonClick"
                 android:text="RadioButton"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:buttonTint="@color/teal_700"/>
 
             <RadioButton
                 android:id="@+id/txtOption2"
@@ -89,7 +91,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
                 android:text="RadioButton"
-                android:textSize="18sp" />
+                android:onClick="playSoundOnRadioButtonClick"
+                android:textSize="18sp"
+                android:buttonTint="@color/teal_700"/>
 
             <RadioButton
                 android:id="@+id/txtOption3"
@@ -97,14 +101,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
                 android:text="RadioButton"
-                android:textSize="18sp" />
+                android:onClick="playSoundOnRadioButtonClick"
+                android:textSize="18sp"
+                android:buttonTint="@color/teal_700"/>
 
             <RadioButton
                 android:id="@+id/txtOption4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="RadioButton"
-                android:textSize="18sp" />
+                android:onClick="playSoundOnRadioButtonClick"
+                android:textSize="18sp"
+                android:buttonTint="@color/teal_700"/>
         </RadioGroup>
 
     </LinearLayout>
