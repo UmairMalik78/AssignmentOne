@@ -112,6 +112,7 @@ public class Question {
 		Question q10 = new Question(
 				"Islamic", "Masjid Qiblatain is in _____ ?", "Makkah", "Medina", "Riyadh", "Jeddah", "Medina", "masjid_qiblatain");
 		ArrayList<Question> allQuestionsList=new ArrayList<Question>();
+		allQuestionsList.add(q1);
 		allQuestionsList.add(q2);
 		allQuestionsList.add(q3);
 		allQuestionsList.add(q4);

@@ -65,7 +65,6 @@ public class QuizActivity extends AppCompatActivity {
 						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 						| View.SYSTEM_UI_FLAG_FULLSCREEN
 						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
 		//Getting All the elements by their IDs
 		questionDescription=findViewById(R.id.txtQuestionDescription);
 		option1=findViewById(R.id.txtOption1);
