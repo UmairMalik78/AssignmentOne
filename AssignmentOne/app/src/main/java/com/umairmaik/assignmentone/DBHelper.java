@@ -88,7 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 String option4=cursor.getString(6);
                 String answer=cursor.getString(7);
                 String imgPath=cursor.getString(8);
-                Question question=new Question(description,category,option1,option2,option3,option4,answer,imgPath);
+                Question question=new Question(category,description,option1,option2,option3,option4,answer,imgPath);
                 questionList.add(question);
             }while(cursor.moveToNext()!=false);
         }

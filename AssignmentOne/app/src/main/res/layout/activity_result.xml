@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/result"
     tools:context=".ResultActivity">
 
     <TextView
@@ -12,8 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:text="Status"
-        android:textColor="#FFF309"
-        android:textSize="45sp"
+        android:background="@color/white"
+        android:fontFamily="@font/blackberry"
+        android:textColor="#9B5FEB"
+        android:textSize="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,10 +27,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
         android:text="count"
-        android:textColor="#77DB11"
-        android:textSize="32sp"
+        android:textColor="#098E3E"
+        android:textSize="40sp"
+        android:fontFamily="@font/fabrica"
         app:layout_constraintEnd_toEndOf="@+id/txtResultStatus"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="@+id/txtResultStatus"
         app:layout_constraintTop_toBottomOf="@+id/txtResultStatus" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:text="Home"
+        android:textSize="30dp"
+        android:fontFamily="@font/dream"
+        android:onClick="GoToMainActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorrectAnsCount" />
 </androidx.constraintlayout.widget.ConstraintLayout>

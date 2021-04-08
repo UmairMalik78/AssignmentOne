@@ -1,6 +1,7 @@
 package com.umairmaik.assignmentone;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -50,8 +51,13 @@ public class QuizActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quiz);
 		//Loading data
-		dbHelper.addQuestion(Question.GetAllQuestions());
-		//Used to get full screen view
+		//dbHelper.addQuestion(Question.GetAllQuestions());
+		ConstraintLayout constraintLayout=findViewById(R.id.quizLayoutScreen);
+		//Getting quiz category from intent
+		Intent intent=getIntent();
+		String category=intent.getStringExtra("category");
+
+		//Hiding navbar to fit content in screen
 		this.getWindow().getDecorView().setSystemUiVisibility(
 				View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -59,9 +65,6 @@ public class QuizActivity extends AppCompatActivity {
 						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 						| View.SYSTEM_UI_FLAG_FULLSCREEN
 						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-		//Getting quiz category from intent
-		Intent intent=getIntent();
-		String category=intent.getStringExtra("category");
 
 		//Getting All the elements by their IDs
 		questionDescription=findViewById(R.id.txtQuestionDescription);
@@ -175,12 +178,12 @@ public class QuizActivity extends AppCompatActivity {
 	}
 
 	public void SetNextQuestionOnScreen(View view){
+		onClickSound();
 		if(radioGroup.getCheckedRadioButtonId()==-1 && !isTimeOut){
 			Toast.makeText(QuizActivity.this,"Please Select at least one option to proceed",Toast.LENGTH_SHORT).show();
 			return;
 		}
 		countDownTimer.cancel();
-		onClickSound();
 		updateAnswersStatusList();
 		resetAllOptions();//upchecking all options when new question appears;
 		currentQuestionNumber=currentQuestionNumber+1;
@@ -250,7 +253,6 @@ public class QuizActivity extends AppCompatActivity {
 			countDownTimer.cancel();
 		}
 	}
-
 	public void AddQuestionsToDatabase(){
 
 	}

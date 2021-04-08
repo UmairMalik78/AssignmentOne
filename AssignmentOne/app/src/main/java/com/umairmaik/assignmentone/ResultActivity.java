@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class ResultActivity extends AppCompatActivity {
@@ -41,5 +42,10 @@ public class ResultActivity extends AppCompatActivity {
 			resultStatusTextView.setText(fail);
 		String correctAnsCount="Correct Answers: "+String.valueOf(correctAnswersCount);
 		correctAnsCountTextView.setText(correctAnsCount);
+	}
+
+	public void GoToMainActivity(View view) {
+		Intent intent=new Intent(ResultActivity.this,CategorySelectionActivity.class);
+		startActivity(intent);
 	}
 }
