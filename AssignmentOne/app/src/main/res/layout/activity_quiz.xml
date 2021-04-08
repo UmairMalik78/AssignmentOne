@@ -5,6 +5,7 @@
     android:id="@+id/quizLayoutScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/quiz"
     tools:context=".QuizActivity">
 
     <LinearLayout
@@ -21,20 +22,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txtQuizCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="textStart"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/questionTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="textEnd"
+            android:textAlignment="center"
             android:textSize="24sp" />
 
     </LinearLayout>

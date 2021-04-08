@@ -27,7 +27,6 @@ import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
 	private static final long COUNTDOWN_IN_MILLIS=20000;
-	private ColorStateList textColorDefaultRb;
 	private ColorStateList textColorDefaultCd;
 	private CountDownTimer countDownTimer;
 	private  long timeLeftInMillis;
@@ -45,6 +44,7 @@ public class QuizActivity extends AppCompatActivity {
 	Boolean[] answersStatusList=new Boolean[10];
 	int currentQuestionNumber=0;//will be use as index variable
 	boolean isTimeOut=false;
+	String category;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class QuizActivity extends AppCompatActivity {
 		ConstraintLayout constraintLayout=findViewById(R.id.quizLayoutScreen);
 		//Getting quiz category from intent
 		Intent intent=getIntent();
-		String category=intent.getStringExtra("category");
+		category=intent.getStringExtra("category");
 
 		//Hiding navbar to fit content in screen
 		this.getWindow().getDecorView().setSystemUiVisibility(
@@ -73,7 +73,6 @@ public class QuizActivity extends AppCompatActivity {
 		option3=findViewById(R.id.txtOption3);
 		option4=findViewById(R.id.txtOption4);
 		txtQuestionNumber=findViewById(R.id.txtQuestNum);
-		quizCategory=findViewById(R.id.txtQuizCategory);
 		nextQuestionButton=findViewById(R.id.nextQuestionButton);
 		img=findViewById(R.id.imageView);
 		radioGroup=findViewById(R.id.radioGroup);
@@ -82,7 +81,6 @@ public class QuizActivity extends AppCompatActivity {
 		//Creating DBHelper class object which we'll use for the whole sessions.
 
 		//Setting All the layout elements for first time
-		setQuizCategory(category);
 		setQuestionNumber();
 		setQuestionsList();
 		setCurrentQuestion(questionsList.get(currentQuestionNumber));//pass first question from list ini as argument.
@@ -117,7 +115,7 @@ public class QuizActivity extends AppCompatActivity {
 	public void updateTimerTextView(){
 		int minutes=(int)(timeLeftInMillis/1000)/60;
 		int seconds=(int)(timeLeftInMillis/1000)%60;
-		String timeFormat=String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
+		String timeFormat="Time"+String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
 		questionTimer.setText(timeFormat);
 		if(timeLeftInMillis <10000){
 			questionTimer.setTextColor(Color.RED);
@@ -131,12 +129,9 @@ public class QuizActivity extends AppCompatActivity {
 	}
 
 	public void setQuestionsList(){
-		questionsList=dbHelper.GetQuestions(quizCategory.getText().toString());
+		questionsList=dbHelper.GetQuestions(category);
 	}
 
-	public void setQuizCategory(String category){
-		quizCategory.setText(category);
-	}
 
 	public void setQuestionNumber(){
 		String text="Question Number: "+String.valueOf(currentQuestionNumber + 1);//since currentQuestionNumber is being used as index so its always 1 less than original number

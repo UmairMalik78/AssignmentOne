@@ -4,62 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/category"
     tools:context=".CategorySelectionActivity">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:text="@string/category_selection_heading"
-        android:textSize="35sp"
-        android:textAlignment="center"
+        android:layout_width="320dp"
+        android:layout_height="65dp"
         android:fontFamily="@font/aquire"
+        android:text="@string/category_selection_heading"
+        android:textAlignment="center"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
-        android:text="@string/category_islamic"
-        android:textSize="25dp"
+        android:layout_marginBottom="56dp"
         android:fontFamily="@font/dream"
         android:onClick="MoveToQuizActivity"
+        android:text="@string/category_islamic"
+        android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
-        android:textSize="25dp"
+        android:layout_width="313dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="64dp"
         android:fontFamily="@font/dream"
-        android:text="@string/category_gk"
         android:onClick="MoveToQuizActivity"
+        android:text="@string/category_gk"
+        android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="168dp"
-        android:text="@string/category_science"
-        android:textSize="25dp"
+        android:layout_marginBottom="128dp"
         android:fontFamily="@font/dream"
-
         android:onClick="MoveToQuizActivity"
+        android:text="@string/category_science"
+
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
