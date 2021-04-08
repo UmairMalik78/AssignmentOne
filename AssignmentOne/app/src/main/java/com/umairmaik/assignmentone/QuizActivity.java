@@ -51,7 +51,7 @@ public class QuizActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quiz);
 		//Loading data
-		//dbHelper.addQuestion(Question.GetAllQuestions());
+		dbHelper.addQuestion(Question.GetAllQuestions());
 		ConstraintLayout constraintLayout=findViewById(R.id.quizLayoutScreen);
 		//Getting quiz category from intent
 		Intent intent=getIntent();
